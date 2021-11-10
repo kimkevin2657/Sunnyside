@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "37362686594",
+    "project_id": "dfianswallet",
+    "storage_bucket": "dfianswallet.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:37362686594:android:3bc358ce6d406ac29eb29b",
+        "android_client_info": {
+          "package_name": "com.dfianswallet"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "37362686594-aad2h35dee4bdq3vhidskuem8ms1fkjf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCPTCm2Rt5DWQu-2wB6Ysexu5cGZPEjCyA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "37362686594-aad2h35dee4bdq3vhidskuem8ms1fkjf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
