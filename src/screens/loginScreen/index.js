@@ -20,9 +20,11 @@ import { setConfigParameter } from '@redux/actions/config';
 import { connect } from 'react-redux';
 import ReactNativeBiometrics from 'react-native-biometrics';
 // import ReactNativeBiometrics from '@common/react-native-biometrics'
+import CheckBox from '@react-native-community/checkbox';
 import * as Keychain from 'react-native-keychain';
 import auth from '@react-native-firebase/auth';
 import database from '@react-native-firebase/database';
+import Footer from '../../components/Footer';
 
 class LoginScreen extends React.PureComponent {
     constructor(props) {
@@ -35,6 +37,8 @@ class LoginScreen extends React.PureComponent {
             appState: AppState.currentState,  //AppState 앱이 포 그라운드인지 백그라운드인지 알려주고 상태가 변경되면 알려줄 수 있습니다.
             isLoading: false,
             errorMsg: ' ',
+            saveId: false,
+            autoLogin: false,
         };
     }
 
@@ -266,6 +270,10 @@ class LoginScreen extends React.PureComponent {
         this.props.navigation.navigate('SignUpScreen');
     };
 
+    openTerms = () => {
+        this.props.navigation.navigate('TermsScreen');
+    }
+
     //-- dev options --
 
     restartIntro = () => {
@@ -336,8 +344,11 @@ class LoginScreen extends React.PureComponent {
                     contentContainerStyle={styles.scrollContainer}>
                     <View style={styles.wrap}>
                         <View style={styles.subContain}>
-                            <Text style={styles.subTitle}>SIGN IN</Text>
-                            <Text style={styles.title}>Welcome Back</Text>
+                            {/* <Text style={styles.subTitle}>SIGN IN</Text>
+                            <Text style={styles.title}>Welcome Back</Text> */}
+                            <View style={styles.logoImageContainer}>
+                                <Image style={styles.logoImage} source={Images.sunnysideLogo} />
+                            </View>
                             <KeyboardAvoidingView
                                 behavior={Platform.OS === 'android' ? null : 'padding'}>
                                 {(!this.state.shouldEnableBiometrics ||
@@ -346,19 +357,19 @@ class LoginScreen extends React.PureComponent {
                                             <TextBox
                                                 value={this.state.email}
                                                 autoCapitalize={'none'}
-                                                placeholder="Email Address"
-                                                keyboardType="email-address"
+                                                placeholder="아이디"
                                                 returnKeyType="next"
                                                 onChangeText={this.onEmailHandle}
                                                 onSubmitEditing={() => {
                                                     this.secondTextInput.focus();
                                                 }}
                                                 blurOnSubmit={false}
+                                                icon="user"
                                             />
                                             <View style={styles.space} />
                                             <TextBox
                                                 value={this.state.password}
-                                                placeholder="Password"
+                                                placeholder="비밀번호"
                                                 secureTextEntry
                                                 onChangeText={this.onPasswordHandle}
                                                 returnKeyType="send"
@@ -366,6 +377,7 @@ class LoginScreen extends React.PureComponent {
                                                     this.secondTextInput = input;
                                                 }}
                                                 onSubmitEditing={this.onLoginPressHandle}
+                                                icon="lock"
                                             />
                                         </React.Fragment>
                                     )}
@@ -438,8 +450,23 @@ class LoginScreen extends React.PureComponent {
                                         />
                                     </View>
                                 )}
+                                <View style={{flex: 1, flexDirection: 'row',  justifyContent: 'space-between'}}>
+                                    <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1}}>
+                                        <TouchableOpacity onPress={() => this.setState({saveId : !this.state.saveId})}>
+                                            <Text style={[styles.fontSize13,{}]}>아이디 저장</Text>
+                                        </TouchableOpacity>
+                                        <CheckBox tintColors={{true: '#FF843A'}} style={Platform.OS=="ios" ? styles.checkBox:null} value={this.state.saveId} onValueChange={(e)=>{this.setState({saveId : e})}} />
+                                    </View>
+                                    <View style={{flex: 1}} />
+                                    <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1}}>
+                                        <TouchableOpacity onPress={() => this.setState({ autoLogin: !this.state.autoLogin })}>
+                                            <Text style={[styles.fontSize13,{}]}>자동 로그인</Text>
+                                        </TouchableOpacity>
+                                        <CheckBox tintColors={{true: '#FF843A'}} style={Platform.OS=="ios" ? styles.checkBox:null} value={this.state.autoLogin} onValueChange={(e)=>{this.setState({autoLogin : e})}} />
+                                    </View>
+                                </View>
                                 <ButtonGradient
-                                    text="SIGN IN"
+                                    text="로그인"
                                     fullWidth
                                     disabled={this.state.isLoading}
                                     containerStyle={styles.loginButton}
@@ -449,24 +476,36 @@ class LoginScreen extends React.PureComponent {
                             {(!this.state.shouldEnableBiometrics ||
                                 !this.props.enableBiometrics) && (
                                     <React.Fragment>
-                                        <TouchableOpacity
-                                            style={Styles.ColumnCenter}
-                                            onPress={this.openSignUp}>
+                                        <View style={{flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center'}}>
+                                            <TouchableOpacity
+                                                style={Styles.ColumnCenter}
+                                                onPress={this.openSignUp}>
+                                                <Text style={styles.subTitle}>
+                                                    아이디 찾기
+                                                </Text>
+                                            </TouchableOpacity>
                                             <Text style={styles.subTitle}>
-                                                Haven't registered yet?{' '}
-                                                <Text style={styles.highlight}>SIGN UP</Text>
+                                                |
                                             </Text>
-                                        </TouchableOpacity>
-                                        <View style={styles.space} />
-                                        <TouchableOpacity
-                                            style={Styles.ColumnCenter}
-                                            onPress={this.openResetPassword}>
-                                            <Text style={styles.subTitle}>Forgot Password?</Text>
-                                        </TouchableOpacity>
+                                            {/* <View style={styles.space} /> */}
+                                            <TouchableOpacity
+                                                style={Styles.ColumnCenter}
+                                                onPress={this.openResetPassword}>
+                                                <Text style={styles.subTitle}>비밀번호 찾기</Text>
+                                            </TouchableOpacity>
+                                            <Text style={styles.subTitle}>
+                                                |
+                                            </Text>
+                                            <TouchableOpacity
+                                                style={Styles.ColumnCenter}
+                                                onPress={this.openTerms}>
+                                                <Text style={styles.subTitle}>회원가입</Text>
+                                            </TouchableOpacity>
+                                        </View>
                                     </React.Fragment>
                                 )}
                             {/* dev options */}
-                            <View style={[Styles.ColumnCenterBottom, styles.containerDev]}>
+                            {/* <View style={[Styles.ColumnCenterBottom, styles.containerDev]}>
                                 <Text style={styles.subTitleDev}>dev options</Text>
                                 <ButtonToggle
                                     disabled={this.state.adults === 0 || this.state.adults === 1}
@@ -482,11 +521,12 @@ class LoginScreen extends React.PureComponent {
                                     onPress={this.restartIntro}
                                     style={styles.btnDev}
                                 />
-                            </View>
+                            </View> */}
                         </View>
                     </View>
                 </KeyboardAwareScrollView>
                 {this.state.isLoading ? <Spinner mode="overlay" /> : null}
+                <Footer />
             </View>
         );
     }
@@ -506,7 +546,14 @@ const styles = StyleSheet.create({
     },
     subContain: {
         paddingHorizontal: Platform.isPad ? null : Styles.width * 0.1,
-        marginTop: 80,
+        marginTop: 100,
+    },
+    logoImageContainer: {
+        marginBottom: 100,
+    },
+    logoImage: {
+        transform: [{scale: 0.8}],
+        resizeMode: 'contain',
     },
     space: {
         marginBottom: 20,
@@ -533,6 +580,13 @@ const styles = StyleSheet.create({
     },
     loginButton: {
         marginVertical: 30,
+        // marginTop: 30,
+        // marginBottom: 10,
+    },
+    checkBox:{
+        width:15,
+        height:15,
+        marginRight: 10
     },
     title: {
         fontWeight: 'bold',

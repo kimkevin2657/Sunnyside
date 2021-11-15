@@ -2,6 +2,7 @@ import { createStackNavigator } from 'react-navigation-stack';
 import SplashScreen from '@screens/splashScreen';
 import IntroSliderScreen from '@screens/introSliderScreen';
 import LoginScreen from '@screens/loginScreen';
+import TermsScreen from '@screens/termsScreen';
 import SignUpScreen from '@screens/signUpScreen';
 import ResetPasswordScreen from '@screens/resetPasswordScreen';
 import ModalRoutes from './ModalRoutes';
@@ -24,6 +25,13 @@ const MainNavigator = createStackNavigator(
         },
         LoginScreen: {
             screen: LoginScreen,
+            navigationOptions: {
+                headerShown: false,
+                gestureEnabled: false,
+            },
+        },
+        TermsScreen: {
+            screen: TermsScreen,
             navigationOptions: {
                 headerShown: false,
                 gestureEnabled: false,

@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, TextInput, TouchableOpacity, StyleSheet} from 'react-native';
+import {View, TextInput, TouchableOpacity, StyleSheet, Platform} from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import {Color} from '@common';
 
@@ -83,6 +83,23 @@ const styles = StyleSheet.create({
     flex: 1,
     borderRadius: 5,
     height: 40,
+    borderColor: '#FCFCFC',
+    borderWidth: 1,
+    ...Platform.select({
+      ios: {
+          shadowColor: '#4d4d4d', 
+          shadowOffset: {
+              width: 0, 
+              height: 6,
+          }, 
+          shadowRadius: 10,
+          shadowOpacity: 1, 
+      }, 
+      android: {
+          elevation: 3,
+      }, 
+    }),
+    // backgroundColor: 'transparent',
   },
   inputIcon: {
     color: Color.text,

@@ -46,9 +46,26 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     height: 44,
-    backgroundColor: 'transparent',
+    backgroundColor: '#FFF',
     flexDirection: 'row',
     paddingHorizontal: 30,
+    borderRadius: 8,
+    borderColor: '#808080',
+    borderWidth: 1,
+    ...Platform.select({
+      ios: {
+          shadowColor: '#4d4d4d', 
+          shadowOffset: {
+              width: 0, 
+              height: 6,
+          }, 
+          shadowRadius: 10,
+          shadowOpacity: 1, 
+      }, 
+      android: {
+          elevation: 3,
+      }, 
+    }),
   },
   fullWidth: {
     width: Platform.isPad ? 400 : '100%',

@@ -79,6 +79,7 @@ export default {
   apple: require('@images/dfians/Apple_subicon.png'),
   DFSC: require('@images/dfians/DFSC.png'),
   DFSD: require('@images/dfians/DFSD.png'),
-  complete: require('@images/dfians/complete.png')
-
+  complete: require('@images/dfians/complete.png'),
+  sunnysideLogo: require('@images/logos/sunnysideLogo.png')
+  
 };

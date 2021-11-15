@@ -45,7 +45,7 @@ export default class ButtonGradient extends React.PureComponent {
                 onPress={onPress}>
                 <LinearGradient
                     start={{ x: 0, y: 0 }}
-                    end={{ x: 1, y: 1 }}
+                    end={{ x: 0, y: 1 }}
                     colors={colorGradient}
                     style={[
                         styles.gradientContainer,
@@ -83,12 +83,20 @@ const styles = StyleSheet.create({
         borderRadius: 8,
     },
     shadow: {
-        shadowOffset: {
-            width: 0,
-            height: 6,
-        },
-        shadowRadius: 10,
-        shadowOpacity: 1,
+        ...Platform.select({
+            ios: {
+                shadowColor: '#4d4d4d', 
+                shadowOffset: {
+                    width: 0, 
+                    height: 6,
+                }, 
+                shadowRadius: 10,
+                shadowOpacity: 1, 
+            }, 
+            android: {
+                elevation: 3,
+            }, 
+        }),
         backgroundColor: 'transparent',
     },
     logo: {

@@ -17,7 +17,7 @@ class SplashScreen extends React.PureComponent {
         if(store.getState().user.useLock == "Y"){
             this.props.navigation.navigate("LockScreen",{mode:1,type:'confirm',success : this.goMain,start : true})
         }else {
-            this.props.navigation.navigate('Main');
+            this.props.navigation.navigate('LoginScreen');
         }
         // }
         // } else {
@@ -47,7 +47,7 @@ class SplashScreen extends React.PureComponent {
         // );
     }
     goMain=()=>{
-        this.props.navigation.navigate('Main');
+        this.props.navigation.navigate('LoginScreen');
     }
     render() {
         return <LoadingScreen />;
