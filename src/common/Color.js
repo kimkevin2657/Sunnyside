@@ -34,7 +34,8 @@ export default {
     tabbar: '#ffffff',
     tabbarTint: '#f0622d',
     tabbarColor: '#555555',
-
+    // lead color
+    leadColor: '#FF843A',
     // Regular Colors
     black: '#000',
     yellow: '#ebbe3f',

@@ -6,11 +6,12 @@ import {
   TouchableOpacity,
   StyleSheet,
   Platform,
+  Image,
   KeyboardAvoidingView,
 } from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {Color, Styles, FontSize, Util} from '@common';
-import {ButtonGradient, Spinner, TextBox} from '@components';
+import {Color, Styles, FontSize, Util, Images} from '@common';
+import {ButtonGradient, Spinner, TextBox, CardTitle} from '@components';
 import {connect} from 'react-redux';
 import {setUser} from '@redux/actions/user';
 import auth from '@react-native-firebase/auth';
@@ -114,7 +115,11 @@ class SignUpScreen extends React.PureComponent {
           <StatusBar barStyle="dark-content" />
           <View style={styles.wrap}>
             <View style={styles.subContain}>
+              <View style={styles.logoImageContainer}>
+                <Image style={styles.logoImage} source={Images.sunnysideLogo} />
+              </View>
               <Text style={styles.title}>Sign Up</Text>
+              <CardTitle title="아이디" />
               <View>
                 <Text style={styles.subTitle}>
                   Enter your email to reset your password
@@ -199,7 +204,14 @@ const styles = StyleSheet.create({
   },
   subContain: {
     paddingHorizontal: Platform.isPad ? null : Styles.width * 0.1,
-    marginTop: 60,
+    // marginTop: 60,
+  },
+  logoImageContainer: {
+    marginVertical: 30,
+  },
+  logoImage: {
+    transform: [{scale: 0.8}],
+    resizeMode: 'contain',
   },
   space: {
     marginBottom: 20,
