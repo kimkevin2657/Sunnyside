@@ -25,6 +25,7 @@ import CardExperienceResultLarge from './CardExperienceResultLarge';
 import CardTopExperience from './CardTopExperience';
 import CardTripItem from './CardTripItem';
 import CardRecentlyViewed from './CardRecentlyViewed';
+import CardTitle from './CardTitle';
 
 export {
     ButtonBookmark,
@@ -54,4 +55,5 @@ export {
     CardTopExperience,
     CardTripItem,
     CardRecentlyViewed,
+    CardTitle,
 };

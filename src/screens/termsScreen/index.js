@@ -1,21 +1,13 @@
 import React from 'react';
 import {  View, StatusBar, StyleSheet, Image, Alert, Linking, TouchableOpacity, BackHandler,Text, ScrollView, ImageBackground, TextInput, ImageStore, FlatList } from 'react-native';
 import { Color, FontSize, Styles, Images, Util } from '@common';
-import BottomTab from '../../components/_gmcCustom/BottomTab';
-import HeaderBar from '../../components/_gmcCustom/HeaderBar';
-import RectangleButton from '../../components/_gmcCustom/RectangleButton';
-import PickerCustom from '../../components/_gmcCustom/PickerCustom'
+
 /* 아임포트 모듈을 불러옵니다. */
-import IMP from 'iamport-react-native';
-import Loading from '../iamportScreen/iamportLoading'
+
 import {ButtonGradient, ButtonSecundary} from '@components';
 
-import ModalPicker from '../../components/_gmcCustom/ModalPicker'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import CheckBox from '@react-native-community/checkbox';
-import { commonApi } from '@common/ApiConnector';
-import Modal from 'react-native-modal';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
 import SimpleToast from 'react-native-simple-toast';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Footer from '../../components/Footer';
@@ -24,43 +16,10 @@ class TermsScreen extends React.PureComponent {
         super(props);
 
         this.state = {
-            carrierCode : "KT",
-            modalShow : false,
-            carrierArray : [
-                { label: 'KT', value: 'KT' },
-                { label: 'SKT', value: 'SKT' },
-                { label: 'LGT', value: 'LGT' },
-                { label: '알뜰폰', value: 'MVNO' },
-            ],
-            mbId : "",
-            mbPassword : "",
-            mbPasswordSecond : "",
-            mbName : "",
-            mbTradePassword:"1111",
-            mbCfCode : "",
-            mbPhone : "",
             mbMarketingUseYn:"N",
-            process: "signUp",
-            mbIdCheck: true,
-            mbIdReg:false,
-            mbPasswordCheck:true,
-            mbPasswordSecondCheck : true,
             termsCheck : false ,
             personalCheck: false,
             locationCheck: false,
-            successValue: {
-                email: false,
-                phone:false,
-            },
-            isSignUp: true,
-            IamModalShow:false,
-            phoneInfo: {
-                birthday: '',
-                carrier: '',
-                name: '',
-                phone: ''
-            },
-            iamData: {}
         }
     }
 
@@ -80,7 +39,14 @@ class TermsScreen extends React.PureComponent {
     }
 
     onLoginPressHandle = () => {
-        console.log('hi')
+        const {termsCheck, personalCheck, locationCheck} = this.state
+
+        if(termsCheck === false || personalCheck === false || locationCheck === false) {
+            SimpleToast.show('필수 항목에 동의해주세요.', SimpleToast.BOTTOM)
+            return
+        }
+
+        this.props.navigation.navigate('SignUpScreen')
     }
     
 
