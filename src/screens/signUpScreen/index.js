@@ -21,22 +21,30 @@ class SignUpScreen extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      userName: '',
+      id: '',
       email: '',
       password: '',
+      name: '',
+      birthday: '',
+      gender: 'm',
+      address: '',
+      phone: '',
       isLoading: false,
       errorMsg: ' ',
     };
   }
 
-  onUserNameHandle = (userName) => this.setState({userName});
+  onIdHandle = (id) => {
+    // 중복아이디 체크 후 errorMsg로 "멋진 아이디입니다" / "중복된 아이디입니다" 출력해야함
+    this.setState({id})
+  };
 
   onEmailHandle = (email) => this.setState({email});
 
   onPasswordHandle = (password) => this.setState({password});
 
   handleSignUp = () => {
-    if (this.state.userName.trim() === '') {
+    if (this.state.id.trim() === '') {
       this.setState({
         isLoading: false,
         errorMsg: 'You must include your name',
@@ -67,17 +75,17 @@ class SignUpScreen extends React.PureComponent {
             .set({
               uid: userCredentials.user.uid,
               email: userCredentials.user.email,
-              userName: this.state.userName,
+              id: this.state.id,
             })
             .then(() => {
               this.props.setUser({
                 uid: userCredentials.user.uid,
-                userName: this.state.userName,
+                id: this.state.id,
                 email: userCredentials.user.email,
                 token: userCredentials.user.email,
               });
               this.setState({
-                userName: '',
+                id: '',
                 email: '',
                 password: '',
                 isLoading: false,
@@ -118,30 +126,27 @@ class SignUpScreen extends React.PureComponent {
               <View style={styles.logoImageContainer}>
                 <Image style={styles.logoImage} source={Images.sunnysideLogo} />
               </View>
-              <Text style={styles.title}>Sign Up</Text>
-              <CardTitle title="아이디" />
               <View>
-                <Text style={styles.subTitle}>
-                  Enter your email to reset your password
-                </Text>
                 <KeyboardAvoidingView
                   behavior={Platform.OS === 'android' ? null : 'padding'}>
+                  <CardTitle title="아이디" />
                   <TextBox
-                    value={this.state.userName}
-                    placeholder="Name"
+                    value={this.state.id}
+                    placeholder="아이디를 입력해주세요."
                     returnKeyType="next"
                     onSubmitEditing={() => {
                       this.secondTextInput.focus();
                     }}
                     blurOnSubmit={false}
-                    onChangeText={this.onUserNameHandle}
+                    onChangeText={this.onIdHandle}
                   />
-                  <View style={styles.space} />
+                  <Text style={styles.error}>{this.state.errorMsg}</Text>
+                  {/* <View style={styles.space} /> */}
+                  <CardTitle title="비밀번호" />
                   <TextBox
-                    value={this.state.email}
-                    autoCapitalize={'none'}
-                    placeholder="Email Address"
-                    keyboardType="email-address"
+                    value={this.state.password}
+                    placeholder="비밀번호를 입력해주세요."
+                    secureTextEntry
                     returnKeyType="next"
                     onRef={(input) => {
                       this.secondTextInput = input;
@@ -150,21 +155,96 @@ class SignUpScreen extends React.PureComponent {
                       this.thirdTextInput.focus();
                     }}
                     blurOnSubmit={false}
-                    onChangeText={this.onEmailHandle}
+                    onChangeText={this.onPasswordHandle}
                   />
                   <View style={styles.space} />
+                  <CardTitle title="비밀번호 재확인" />
                   <TextBox
-                    placeholder="Password"
+                    placeholder="비밀번호를 다시 입력해주세요."
                     secureTextEntry
                     onChangeText={this.onPasswordHandle}
-                    returnKeyType="send"
+                    returnKeyType="next"
                     onRef={(input) => {
                       this.thirdTextInput = input;
                     }}
                     value={this.state.password}
-                    onSubmitEditing={this.onLoginPressHandle}
+                    onSubmitEditing={() => this.fourthTextInput.focus()}
                   />
-                  <Text style={styles.error}>{this.state.errorMsg}</Text>
+                  {/* <Text style={styles.error}>{this.state.errorMsg}</Text> */}
+                  <View style={styles.space} />
+                  <CardTitle title="이름" />
+                  <TextBox
+                    placeholder="이름을 입력해주세요."
+                    autoCapitalize="none"
+                    onChangeText={this.onNameHandle}
+                    returnKeyType="next"
+                    onRef={(input) => {
+                      this.fourthTextInput = input;
+                    }}
+                    value={this.state.name}
+                    onSubmitEditing={() => this.fifthTextInput.focus()}
+                  />
+                  <View style={styles.space} />
+                  <CardTitle title="생년월일" />
+                  <TextBox
+                    placeholder="Password"
+                    onChangeText={this.onPasswordHandle}
+                    returnKeyType="next"
+                    onRef={(input) => {
+                      this.fifthTextInput = input;
+                    }}
+                    value={this.state.password}
+                    onSubmitEditing={() => this.sixthTextInput.focus()}
+                  />
+                  <View style={styles.space} />
+                  <CardTitle title="성별" />
+                  {/* Picker로 변경해야함 */}
+                  <TextBox
+                    placeholder="Password"
+                    onChangeText={this.onPasswordHandle}
+                    returnKeyType="next"
+                    onRef={(input) => {
+                      this.sixthTextInput = input;
+                    }}
+                    value={this.state.password}
+                    onSubmitEditing={() => this.seventhTextInput.focus()}
+                  />
+                  <View style={styles.space} />
+                  <CardTitle title="본인 확인 이메일 (선택)" />
+                  <TextBox
+                    placeholder="이메일을 입력해주세요."
+                    onChangeText={this.onEmailHandle}
+                    returnKeyType="next"
+                    onRef={(input) => {
+                      this.seventhTextInput = input;
+                    }}
+                    value={this.state.password}
+                    onSubmitEditing={() => this.eighthTextInput.focus()}
+                  />
+                  <View style={styles.space} />
+                  <CardTitle title="주소" />
+                  <TextBox
+                    placeholder="주소를 입력해주세요."
+                    onChangeText={this.onPasswordHandle}
+                    returnKeyType="next"
+                    onRef={(input) => {
+                      this.eighthTextInput = input;
+                    }}
+                    value={this.state.password}
+                    onSubmitEditing={() => this.ninethTextInput.focus()}
+                  />
+                  <View style={styles.space} />
+                  <CardTitle title="전화번호" />
+                  <TextBox
+                    placeholder="전화번호를 입력해주세요."
+                    onChangeText={this.onPasswordHandle}
+                    returnKeyType="send"
+                    onRef={(input) => {
+                      this.ninethTextInput = input;
+                    }}
+                    value={this.state.password}
+                    onSubmitEditing={() => this.tenthTextInput.focus()}
+                  />
                   <ButtonGradient
                     text="SIGN UP"
                     fullWidth
@@ -173,13 +253,6 @@ class SignUpScreen extends React.PureComponent {
                     onPress={this.handleSignUp}
                   />
                 </KeyboardAvoidingView>
-                <TouchableOpacity
-                  style={Styles.ColumnCenter}
-                  onPress={this.backToLogin}>
-                  <Text style={styles.resetPassword}>
-                    Back to <Text style={styles.highlight}>SIGN IN</Text>
-                  </Text>
-                </TouchableOpacity>
               </View>
             </View>
           </View>

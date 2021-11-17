@@ -27,11 +27,11 @@ const styles = StyleSheet.create({
     container: {
         // paddingVertical: 10,
         // minHeight: Platform.isPad ? Styles.width * 0.25 : Styles.width * 0.45,
-        width: 130,
+        // width: 130,
         // marginLeft: Styles.width * 0.05,
         marginBottom: 10,
         borderLeftColor: Color.leadColor,
-        borderLeftWidth: 3,
+        borderLeftWidth: 5,
     },
     title: {
         fontSize: FontSize.medium,
