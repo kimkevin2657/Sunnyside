@@ -1,0 +1,144 @@
+import React from 'react';
+import {  View, StatusBar, StyleSheet, Image, Alert, Linking, TouchableOpacity, BackHandler,Text, ScrollView, ImageBackground, TextInput, ImageStore, FlatList } from 'react-native';
+import { Color, FontSize, Styles, Images, Util } from '@common';
+
+import {ButtonGradient, ButtonSecundary} from '@components';
+
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import CheckBox from '@react-native-community/checkbox';
+import SimpleToast from 'react-native-simple-toast';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import Footer from '../../components/Footer';
+class SignUpDoneScreen extends React.PureComponent {
+
+    constructor(props) {
+        super(props)
+    }
+
+    render() {
+        return (
+            <SafeAreaView style={[Styles.Wrap, {flex: 1}]}>
+                <View style={styles.container}>
+
+                    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                        <Text style={styles.fontSize20}><Text style={{fontWeight: 'bold'}}>회원가입</Text>이 성공적으로</Text>
+                        <Text style={styles.fontSize20}>완료되었습니다!</Text>
+                    </View>
+                    
+                    <View style={{
+                        position: 'absolute',
+                        bottom: 80,
+                        flexDirection: 'row', 
+                        justifyContent: 'space-around', 
+                        alignItems: 'center', 
+                        width: '100%', 
+                    }}>
+                        <View style={{flex: 8}}>
+                            <ButtonGradient
+                                text="홈으로 가기"
+                                fullWidth
+                                containerStyle={styles.loginButton}
+                                onPress={() => this.props.navigation.pop()}
+                            />
+                        </View>
+                        <View style={{flex: 1}} />
+                        <View style={{flex: 8}}>
+                            <ButtonGradient
+                                text="상담신청 하기"
+                                fullWidth
+                                containerStyle={styles.loginButton}
+                                onPress={() => this.props.navigation.navigate("CounselScreen")}
+                            />
+                        </View>
+                    </View>
+                </View>
+                <Footer />
+            </SafeAreaView>
+        );
+    }
+}
+
+const styles = StyleSheet.create({
+    container:{
+        paddingHorizontal:20,
+        justifyContent: 'center',
+        alignItems: 'center',
+        flex: 1,
+    },
+    logoImageContainer: {
+        marginVertical: 30,
+    },
+    logoImage: {
+        transform: [{scale: 0.8}],
+        resizeMode: 'contain',
+    },
+    fontSize14:{
+        fontSize:14,
+        lineHeight:17,
+        fontWeight:'400'
+    },
+    fontSize13:{
+        fontSize:13,
+        // lineHeight:15,
+        fontWeight:'400'
+    },  
+    fontSize16:{
+        fontSize:16,
+        // lineHeight:20,
+        fontWeight:'400'
+    },
+    fontSize20:{
+        fontSize:20,
+        // lineHeight:20,
+        fontWeight:'400'
+    },
+    warnText:{
+        fontSize:11,
+        lineHeight:13,
+        fontWeight:'400',
+        color:"#FF0000"
+    },
+    pickerTextStyle : {
+        fontSize:14,
+        lineHeight: 17,
+        fontWeight:'400',
+        color:'#606060'
+    },
+    phoneView:{
+        borderWidth:1,
+        borderColor:"#D7D6D6",
+        flex:1,
+        paddingHorizontal: 13,
+        marginRight: 10,
+        height:52,
+        flexDirection:'row',
+        justifyContent:'center',
+    },
+    checkBox:{
+        width:15,
+        height:15,
+        marginRight: 10
+    },
+    modalView :{
+        alignItems:'center',
+        position: 'absolute',
+        width: '100%',
+        bottom : 0,
+        height:200,
+        backgroundColor : Color.white
+    },
+    modal:{
+        alignItems:'center',
+        width : '100%',
+        margin : 0,
+        padding :0,
+    },
+    termsContainer: {
+        height: 50,
+        zIndex: 99,
+        padding: 10,
+    },
+});
+
+
+export default SignUpDoneScreen;

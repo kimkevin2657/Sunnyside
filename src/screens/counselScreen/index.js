@@ -18,7 +18,7 @@ import auth from '@react-native-firebase/auth';
 import database from '@react-native-firebase/database';
 import DropDownPicker from 'react-native-dropdown-picker';
 
-class SignUpScreen extends React.PureComponent {
+class CounselScreen extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -400,4 +400,4 @@ const mapDispatchToProps = {
   setUser,
 };
 
-export default connect(null, mapDispatchToProps)(SignUpScreen);
+export default connect(null, mapDispatchToProps)(CounselScreen);

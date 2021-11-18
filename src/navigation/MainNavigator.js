@@ -4,7 +4,9 @@ import IntroSliderScreen from '@screens/introSliderScreen';
 import LoginScreen from '@screens/loginScreen';
 import TermsScreen from '@screens/termsScreen';
 import SignUpScreen from '@screens/signUpScreen';
+import SignUpDoneScreen from '@screens/signUpDoneScreen';
 import ResetPasswordScreen from '@screens/resetPasswordScreen';
+import CounselScreen from '@screens/counselScreen';
 import ModalRoutes from './ModalRoutes';
 
 const MainNavigator = createStackNavigator(
@@ -39,6 +41,18 @@ const MainNavigator = createStackNavigator(
         },
         SignUpScreen: {
             screen: SignUpScreen,
+            navigationOptions: {
+                headerShown: false,
+            },
+        },
+        SignUpDoneScreen: {
+            screen: SignUpDoneScreen,
+            navigationOptions: {
+                headerShown: false,
+            },
+        },
+        CounselScreen: {
+            screen: CounselScreen,
             navigationOptions: {
                 headerShown: false,
             },
