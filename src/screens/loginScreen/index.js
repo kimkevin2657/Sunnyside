@@ -332,6 +332,10 @@ class LoginScreen extends React.PureComponent {
         });
     };
 
+    handleMenuScreen = () => {
+        this.props.navigation.navigate('MenuScreen')
+    }
+
     //-- dev options --
 
     render() {
@@ -505,12 +509,12 @@ class LoginScreen extends React.PureComponent {
                                     </React.Fragment>
                                 )}
                             {/* dev options */}
-                            {/* <View style={[Styles.ColumnCenterBottom, styles.containerDev]}>
+                            <View style={[Styles.ColumnCenterBottom, styles.containerDev]}>
                                 <Text style={styles.subTitleDev}>dev options</Text>
                                 <ButtonToggle
                                     disabled={this.state.adults === 0 || this.state.adults === 1}
                                     icon="user"
-                                    text=" SIGN IN NOW "
+                                    text=" GO TO MENU "
                                     onPress={this.handleAutoSignUp}
                                     style={styles.btnDev}
                                 />
@@ -521,7 +525,7 @@ class LoginScreen extends React.PureComponent {
                                     onPress={this.restartIntro}
                                     style={styles.btnDev}
                                 />
-                            </View> */}
+                            </View>
                         </View>
                     </View>
                 </KeyboardAwareScrollView>

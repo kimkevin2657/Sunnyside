@@ -115,18 +115,25 @@ class TermsScreen extends React.PureComponent {
                             </View>
                             
                             <View style={{marginTop:58, marginBottom:100, flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', width: '100%'}}>
-                                <ButtonSecundary
-                                    text="취소"
-                                    disabled={this.state.isLoading}
-                                    containerStyle={styles.loginButton}
-                                    onPress={() => this.props.navigation.pop()}
-                                />
-                                <ButtonGradient
-                                    text="확인"
-                                    disabled={this.state.isLoading}
-                                    containerStyle={styles.loginButton}
-                                    onPress={() => this.onLoginPressHandle()}
-                                />
+                                <View style={{flex: 5}}>
+                                    <ButtonSecundary
+                                        text="취소"
+                                        fullWidth
+                                        disabled={this.state.isLoading}
+                                        containerStyle={[styles.loginButton, {borderColor: '#FCFCFC'}]}
+                                        onPress={() => this.props.navigation.pop()}
+                                    />
+                                </View>
+                                <View style={{flex: 1}} />
+                                <View style={{flex: 5}}>
+                                    <ButtonGradient
+                                        text="확인"
+                                        fullWidth
+                                        disabled={this.state.isLoading}
+                                        containerStyle={styles.loginButton}
+                                        onPress={() => this.onLoginPressHandle()}
+                                    />
+                                </View>
                             </View>
                         </View>
                         <Footer />

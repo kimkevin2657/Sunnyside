@@ -39,17 +39,18 @@ export default class TextBox extends React.PureComponent {
       onChangeText,
       onSubmitEditing,
       blurOnSubmit,
+      multiline
     } = this.props;
 
     return (
-      <View style={styles.inputWrap}>
+      <View style={[styles.inputWrap, this.props.containerStyle]}>
         {this.props.icon && (
           <Icon name={this.props.icon} style={styles.inputIcon} />
         )}
         <TextInput
           value={value}
           autoCapitalize={autoCapitalize || 'sentences'}
-          style={styles.input}
+          style={[styles.input, this.props.textStyle]}
           placeholder={placeholder || ''}
           placeholderTextColor={Color.textBorderColor}
           secureTextEntry={this.state.showPassword}
@@ -59,7 +60,8 @@ export default class TextBox extends React.PureComponent {
           onChangeText={onChangeText}
           onSubmitEditing={onSubmitEditing}
           underlineColorAndroid="transparent"
-          blurOnSubmit={blurOnSubmit || true}
+          blurOnSubmit={this.props.blurOnSubmit || true}
+          multiline={multiline || false}
         />
         {this.props.secureTextEntry && (
           <TouchableOpacity

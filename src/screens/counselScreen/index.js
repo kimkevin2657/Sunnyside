@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {Color, Styles, FontSize, Util, Images} from '@common';
-import {ButtonGradient, Spinner, TextBox, CardTitle} from '@components';
+import {ButtonGradient, ButtonSecundary, Spinner, TextBox, CardTitle} from '@components';
 import {connect} from 'react-redux';
 import {setUser} from '@redux/actions/user';
 import auth from '@react-native-firebase/auth';
@@ -22,15 +22,15 @@ class CounselScreen extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      id: '',
-      email: '',
-      password: '',
-      passwordConfirm: '',
-      name: '',
-      birthday: '',
-      gender: 'm',
+      postalCode: '',
       address: '',
-      phone: '',
+      addressDetail: '',
+      installType: '',
+      installPurpose: '',
+      licence: '',
+      volumn: '',
+      generatorName: '',
+      etc: '', // 할말을 적는 공간 값
       isLoading: false,
       errorMsg: ' ',
       pickerOpen: false,
@@ -38,20 +38,22 @@ class CounselScreen extends React.PureComponent {
     };
   }
 
-  onIdHandle = (id) => {
-    // 중복아이디 체크 후 errorMsg로 "멋진 아이디입니다" / "중복된 아이디입니다" 출력해야함
-    this.setState({id})
+  onPostalCodeHandle = (postalCode) => this.setState({postalCode})
+  
+  onAddressHandle = (address) => this.setState({address})
+
+  onAddressDetailHandle = (addressDetail) => this.setState({addressDetail})
+
+  onVolumeHandle = (volume) => this.setState({volume})
+
+  onGeneratorNameHandle = (generatorName) => {
+    // 중복되는 발전소명 체크 후 errorMsg로 "멋진 발전소명 입니다" / "중복된 발전소명 입니다" 출력해야함
+    this.setState({generatorName})
   };
 
-  onEmailHandle = (email) => this.setState({email});
-  
-  onNameHandle = (name) => this.setState({name});
+  onEtcHandle = (etc) => this.setState({etc})
 
-  onPasswordHandle = (password) => this.setState({password});
-
-  onPasswordConfirmHandle = (passwordConfirm) => this.setState({passwordConfirm});
-
-  handleSignUp = () => {
+  handleCounsel = () => {
     // if (this.state.id.trim() === '') {
     //   this.setState({
     //     isLoading: false,
@@ -74,27 +76,13 @@ class CounselScreen extends React.PureComponent {
     //   return;
     // }
 
-    this.setState({isLoading: true}, () => {
-      // 회원가입 API 통신 
-      // 이후 redux에 user 작성, 가입완료 페이지로 이동
-      this.props.navigation.navigate("SignUpDoneScreen")
-    });
-  };
+    // this.setState({isLoading: true}, () => {
+      // 상담신청 API 통신 
+      // 이후 상담신청 완료 페이지로 이동
 
-  backToLogin = () => {
-    this.props.navigation.navigate('LoginScreen');
+      this.props.navigation.navigate("CounselDoneScreen")
+    // });
   };
-
-  setOpen = () => {
-    this.setState({
-        pickerOpen: !this.state.pickerOpen
-    });
-  }
-  setValue = (callback) => {
-    this.setState(state => ({
-        selectedCategory: callback(state.label)
-    }));
-  }
 
   render() {
     return (
@@ -108,154 +96,27 @@ class CounselScreen extends React.PureComponent {
               <View style={styles.logoImageContainer}>
                 <Image style={styles.logoImage} source={Images.sunnysideLogo} />
               </View>
+              <View style={styles.textWrap}>
+                <Text style={styles.fontSize16}>
+                  아래의 항목을 입력하여 상담신청하시면 3일 이내에 상담결과를 메시지로 확인 할 수 있으며, 설치 가능시에 나만의 발전소페이지에 접속하여 조금 더 자세한 <Text style={{fontWeight: 'bold', color: Color.leadColor}}>상담 결과</Text>를 확인할 수 있습니다.
+                </Text>
+              </View>
               <View>
                 <KeyboardAvoidingView
                   behavior={Platform.OS === 'android' ? null : 'padding'}>
-                  <CardTitle title="아이디" />
-                  <TextBox
-                    value={this.state.id}
-                    placeholder="아이디를 입력해주세요."
-                    returnKeyType="next"
-                    onSubmitEditing={() => {
-                      this.secondTextInput.focus();
-                    }}
-                    blurOnSubmit={false}
-                    onChangeText={this.onIdHandle}
-                  />
-                  <Text style={styles.error}>{this.state.errorMsg}</Text>
-                  {/* <View style={styles.space} /> */}
-                  <CardTitle title="비밀번호" />
-                  <TextBox
-                    value={this.state.password}
-                    placeholder="비밀번호를 입력해주세요."
-                    secureTextEntry
-                    returnKeyType="next"
-                    onRef={(input) => {
-                      this.secondTextInput = input;
-                    }}
-                    onSubmitEditing={() => {
-                      this.thirdTextInput.focus();
-                    }}
-                    blurOnSubmit={false}
-                    onChangeText={this.onPasswordHandle}
-                  />
-                  <View style={styles.space} />
-                  <CardTitle title="비밀번호 재확인" />
-                  <TextBox
-                    placeholder="비밀번호를 다시 입력해주세요."
-                    secureTextEntry
-                    onChangeText={this.onPasswordConfirmHandle}
-                    returnKeyType="next"
-                    onRef={(input) => {
-                      this.thirdTextInput = input;
-                    }}
-                    value={this.state.passwordConfirm}
-                    onSubmitEditing={() => this.fourthTextInput.focus()}
-                  />
-                  {/* <Text style={styles.error}>{this.state.errorMsg}</Text> */}
-                  <View style={styles.space} />
-                  <CardTitle title="이름" />
-                  <TextBox
-                    placeholder="이름을 입력해주세요."
-                    autoCapitalize="none"
-                    onChangeText={this.onNameHandle}
-                    returnKeyType="next"
-                    onRef={(input) => {
-                      this.fourthTextInput = input;
-                    }}
-                    value={this.state.name}
-                    onSubmitEditing={() => this.fifthTextInput.focus()}
-                  />
-                  <View style={styles.space} />
-                  <CardTitle title="생년월일" />
-                  <View style={{flexDirection: 'row'}}>
-                    <View style={{flex: 5}}>
-                      <TextBox
-                        placeholder="년(4자)"
-                        onChangeText={this.onPasswordHandle}
-                        returnKeyType="next"
-                        onRef={(input) => {
-                          this.fifthTextInput = input;
-                        }}
-                        value={this.state.password}
-                        onSubmitEditing={() => this.sixthTextInput.focus()}
-                      />
-                    </View>
-                    <View style={{flex: 1}} />
-                    <View style={{flex: 4}}>
-                      {/* Picker로 교체예정 */}
-                      <TextBox
-                        placeholder="월"
-                        onChangeText={this.onPasswordHandle}
-                        returnKeyType="next"
-                        onRef={(input) => {
-                          this.fifthTextInput = input;
-                        }}
-                        value={this.state.password}
-                        onSubmitEditing={() => this.sixthTextInput.focus()}
-                      />
-                    </View>
-                    <View style={{flex: 1}} />
-                    <View style={{flex: 4}}>
-                      <TextBox
-                        placeholder="일"
-                        onChangeText={this.onPasswordHandle}
-                        returnKeyType="next"
-                        onRef={(input) => {
-                          this.fifthTextInput = input;
-                        }}
-                        value={this.state.password}
-                        onSubmitEditing={() => this.sixthTextInput.focus()}
-                      />
-                    </View>
-                  </View>
-                  <View style={styles.space} />
-                  <CardTitle title="성별" />
-                  {/* Picker로 변경해야함 */}
-                  <View style={{flexDirection: 'row', zIndex: 9999, position: 'relative', }}>
-                    <DropDownPicker
-                      style={{borderColor: '#FCFCFC',  zIndex: 9999}}
-                      // containerStyle={{width: 80,  zIndex: 9999}}
-                      placeholder="선택"
-                      items={[
-                        {label: '남자', value: 'm'},
-                        {label: '여자', value: 'f'},
-                      ]}
-                      onChangeItem={item => console.log(item)}
-                      open={this.state.pickerOpen}
-                      setOpen={this.setOpen}
-                      // dropDownMaxHeight={200}
-                      dropDownContainerStyle={{zIndex: 9999, borderColor: '#FCFCFC', }}
-                      // dropDownStyle={{height: 200}}
-                      value={String(this.state.selectedCategory.value)}
-                      setValue={this.setValue}
-                    />
-                  </View>
-                  <View style={styles.space} />
-                  <CardTitle title="본인 확인 이메일 (선택)" />
-                  <TextBox
-                    placeholder="이메일을 입력해주세요."
-                    onChangeText={this.onEmailHandle}
-                    returnKeyType="next"
-                    onRef={(input) => {
-                      this.seventhTextInput = input;
-                    }}
-                    value={this.state.password}
-                    onSubmitEditing={() => this.eighthTextInput.focus()}
-                  />
-                  <View style={styles.space} />
-                  <CardTitle title="주소" />
+                  <CardTitle title="희망설치장소" />
                   <View style={{flexDirection: 'row'}}>
                     <View style={{flex: 8}}>
                       <TextBox
                         placeholder="우편번호"
-                        onChangeText={this.onAddressHandle}
+                        onChangeText={this.onPostalCodeHandle}
                         returnKeyType="next"
+                        keyboardType="number-pad"
                         onRef={(input) => {
-                          this.eighthTextInput = input;
+                          this.ninethTextInput = input;
                         }}
-                        value={this.state.address}
-                        onSubmitEditing={() => this.ninethTextInput.focus()}
+                        value={this.state.postalCode}
+                        onSubmitEditing={() => this.onAddressSearchHandle()}
                       />
                     </View>
                     <View style={{flex: 0.5}}/>
@@ -274,64 +135,139 @@ class CounselScreen extends React.PureComponent {
                     onChangeText={this.onAddressHandle}
                     returnKeyType="next"
                     onRef={(input) => {
-                      this.eighthTextInput = input;
+                      this.tenthTextInput = input;
                     }}
                     value={this.state.address}
-                    onSubmitEditing={() => this.ninethTextInput.focus()}
+                    onSubmitEditing={() => this.eleventhTextInput.focus()}
                   />
                   <View style={styles.space} />
                   <TextBox
                     placeholder="상세주소 입력"
-                    onChangeText={this.onAddressHandle}
+                    onChangeText={this.onAddressDetailHandle}
                     returnKeyType="next"
                     onRef={(input) => {
-                      this.eighthTextInput = input;
+                      this.eleventhTextInput = input;
                     }}
-                    value={this.state.address}
-                    onSubmitEditing={() => this.ninethTextInput.focus()}
+                    value={this.state.addressDetail}
+                    onSubmitEditing={() => this.twelfthTextInput.focus()}
                   />
                   <View style={styles.space} />
-                  <CardTitle title="전화번호" />
-                  <View style={{flexDirection: 'row', zIndex: 9999, position: 'relative', }}>
-                    <DropDownPicker
-                      style={{borderColor: '#FCFCFC',  zIndex: 9999}}
-                      containerStyle={{width: 80,  zIndex: 9999}}
-                      placeholder="선택"
-                      items={[
-                        {label: '010', value: '010'},
-                        {label: '011', value: '011'},
-                        {label: '016', value: '016'},
-                        {label: '017', value: '017'},
-                        {label: '018', value: '018'},
-                        {label: '019', value: '019'},
-                      ]}
-                      defaultIndex={0}
-                      onChangeItem={item => console.log(item)}
-                      open={this.state.pickerOpen}
-                      setOpen={this.setOpen}
-                      // dropDownMaxHeight={200}
-                      dropDownContainerStyle={{zIndex: 9999, borderColor: '#FCFCFC', }}
-                      // dropDownStyle={{height: 200}}
-                      value={String(this.state.selectedCategory.value)}
-                      setValue={this.setValue}
-                    />
-                    <TextBox
-                      placeholder="전화번호를 입력해주세요."
-                      onChangeText={this.onPhoneHandle}
-                      returnKeyType="send"
-                      onRef={(input) => {
-                        this.ninethTextInput = input;
-                      }}
-                      value={this.state.phone}
-                      onSubmitEditing={this.handleSignUp}
-                    />
+                  <CardTitle title="설치유형" />
+                  <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+                    <View style={{flex: 5}}>
+                      <ButtonSecundary 
+                        containerStyle={{backgroundColor: this.state.installType === 'land' ? '#E35F2C' : '#FFF', borderColor: '#FCFCFC'}}
+                        textStyle={{color: this.state.installType === 'land' ? '#FFF' : '#000'}}
+                        text='토 지'
+                        fullWidth
+                        // disabled={this.state.installType === 'land' ? false : true}
+                        onPress={() => this.setState({installType: 'land'})}
+                      />
+                    </View>
+                    <View style={{flex: 1}}/>
+                    <View style={{flex: 5}}>
+                      <ButtonSecundary 
+                        containerStyle={{backgroundColor: this.state.installType === 'building' ? '#E35F2C' : '#FFF', borderColor: '#FCFCFC'}}
+                        textStyle={{color: this.state.installType === 'building' ? '#FFF' : '#000'}}
+                        text='건 물'
+                        fullWidth
+                        // disabled={this.state.installType === 'building' ? false : true}
+                        onPress={() => this.setState({installType: 'building'})}
+                      />
+                    </View>
                   </View>
+                  <View style={styles.space} />
+                  <CardTitle title="설치목적" />
+                  <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+                    <View style={{flex: 5}}>
+                      <ButtonSecundary 
+                        containerStyle={{backgroundColor: this.state.installPurpose === 'business' ? '#E35F2C' : '#FFF', borderColor: '#FCFCFC'}}
+                        textStyle={{color: this.state.installPurpose === 'business' ? '#FFF' : '#000'}}
+                        text='발전사업용'
+                        fullWidth
+                        // disabled={this.state.installPurpose === 'business' ? false : true}
+                        onPress={() => this.setState({installPurpose: 'business'})}
+                      />
+                    </View>
+                    <View style={{flex: 1}}/>
+                    <View style={{flex: 5}}>
+                      <ButtonSecundary 
+                        containerStyle={{backgroundColor: this.state.installPurpose === 'consumption' ? '#E35F2C' : '#FFF', borderColor: '#FCFCFC'}}
+                        textStyle={{color: this.state.installPurpose === 'consumption' ? '#FFF' : '#000'}}
+                        text='자가소비용'
+                        fullWidth
+                        // disabled={this.state.installPurpose === 'consumption' ? false : true}
+                        onPress={() => this.setState({installPurpose: 'consumption'})}
+                      />
+                    </View>
+                  </View>
+                  <View style={styles.space} />
+                  <CardTitle title="보유자격유무" />
+                  <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+                    <View style={{flex: 5}}>
+                      <ButtonSecundary 
+                        containerStyle={{backgroundColor: this.state.licence === 'agribusiness' ? '#E35F2C' : '#FFF', borderColor: '#FCFCFC'}}
+                        textStyle={{color: this.state.licence === 'agribusiness' ? '#FFF' : '#000'}}
+                        text='농업경영체'
+                        fullWidth
+                        // disabled={this.state.licence === 'agribusiness' ? false : true}
+                        onPress={() => this.setState({licence: 'agribusiness'})}
+                      />
+                    </View>
+                    <View style={{flex: 1}}/>
+                    <View style={{flex: 5}}>
+                      <ButtonSecundary 
+                        containerStyle={{backgroundColor: this.state.licence === 'N' ? '#E35F2C' : '#FFF', borderColor: '#FCFCFC'}}
+                        textStyle={{color: this.state.licence === 'N' ? '#FFF' : '#000'}}
+                        text='없음'
+                        fullWidth
+                        // disabled={this.state.licence === 'N' ? false : true}
+                        onPress={() => this.setState({licence: 'N'})}
+                      />
+                    </View>
+                  </View>
+                  <View style={styles.space} />
+                  <CardTitle title="희망 설치 용량(선택)" />
+                  <TextBox
+                    placeholder="입력"
+                    onChangeText={this.onVolumeHandle}
+                    returnKeyType="next"
+                    onRef={(input) => {
+                      this.firstTextInput = input;
+                    }}
+                    value={this.state.volume}
+                    onSubmitEditing={() => this.secondTextInput.focus()}
+                  />
+                  <View style={styles.space} />
+                  <CardTitle title="발전소명(가칭)" />
+                  <TextBox
+                    placeholder="입력"
+                    onChangeText={this.onGeneratorNameHandle}
+                    returnKeyType="next"
+                    onRef={(input) => {
+                      this.secondTextInput = input;
+                    }}
+                    value={this.state.generatorName}
+                    onSubmitEditing={() => this.thirdTextInput.focus()}
+                  />
+                  <Text style={styles.error}>{this.state.errorMsg}</Text>
+                  <View style={styles.space} /> 
+                  <TextBox
+                    blurOnSubmit={false}
+                    multiline={true}
+                    placeholder={`기타 문의 사항이 있다면 작성해주세요.`}
+                    containerStyle={{height: 200}}
+                    textStyle={{flex: 1, height: '100%'}}
+                    onChangeText={this.onEtcHandle}
+                    returnKeyType="done"
+                    value={this.state.etc}
+                  />
                   <ButtonGradient
-                    text="SIGN UP"
+                    text="상 담 신 청 하 기"
                     fullWidth
                     disabled={this.state.isLoading}
                     containerStyle={styles.loginButton}
-                    onPress={this.handleSignUp}
+                    onPress={this.handleCounsel}
                   />
                 </KeyboardAvoidingView>
               </View>
@@ -359,6 +295,38 @@ const styles = StyleSheet.create({
   subContain: {
     paddingHorizontal: Platform.isPad ? null : Styles.width * 0.1,
     // marginTop: 60,
+  },
+  textWrap: {
+    padding: 20,
+    borderRadius: 5,
+    borderColor: '#FCFCFC',
+    borderWidth: 1,
+    ...Platform.select({
+      ios: {
+          shadowColor: '#4d4d4d', 
+          shadowOffset: {
+              width: 0, 
+              height: 6,
+          }, 
+          shadowRadius: 10,
+          shadowOpacity: 1, 
+      }, 
+      android: {
+          elevation: 3,
+      }, 
+    }),
+    backgroundColor: Color.textBackgroundColor,
+    marginVertical: 20,
+  },
+  fontSize16:{
+    fontSize:16,
+    // lineHeight:20,
+    fontWeight:'400'
+  },
+  fontSize20:{
+      fontSize:20,
+      // lineHeight:20,
+      fontWeight:'400'
   },
   logoImageContainer: {
     marginVertical: 30,

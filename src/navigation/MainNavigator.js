@@ -7,6 +7,7 @@ import SignUpScreen from '@screens/signUpScreen';
 import SignUpDoneScreen from '@screens/signUpDoneScreen';
 import ResetPasswordScreen from '@screens/resetPasswordScreen';
 import CounselScreen from '@screens/counselScreen';
+import CounselDoneScreen from '@screens/counselDoneScreen';
 import ModalRoutes from './ModalRoutes';
 
 const MainNavigator = createStackNavigator(
@@ -56,6 +57,12 @@ const MainNavigator = createStackNavigator(
             navigationOptions: {
                 headerShown: false,
             },
+        },
+        CounselDoneScreen: {
+            screen: CounselDoneScreen,
+            navigationOptions: {
+                headerShown: false,
+            }
         },
         ResetPasswordScreen: {
             screen: ResetPasswordScreen,
